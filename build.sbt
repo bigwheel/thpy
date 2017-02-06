@@ -1,9 +1,15 @@
 name := "thpy"
-organization := "com.github.bigwheel.thpy"
-version := "1.0"
+organization := "com.github.bigwheel"
+version in Global := "1.0"
+scalaVersion in Global := "2.12.1"
+scalacOptions in Global ++= Seq("-unchecked", "-deprecation", "-feature")
 
-scalaVersion in ThisBuild := "2.12.1"
+lazy val macroSub = (project in file("macro")).settings(
+  scalacOptions += "-language:experimental.macros",
+  libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+  libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value
+)
 
-lazy val macroSub = project in file("macro")
-
-lazy val main = (project in file(".")).dependsOn(macroSub)
+lazy val main = (project in file(".")).dependsOn(macroSub).settings(
+  libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value
+)
