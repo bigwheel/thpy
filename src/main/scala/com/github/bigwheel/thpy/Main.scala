@@ -11,7 +11,7 @@ object Main {
   def main(args: Array[String]) {
     val b = 3
 
-    import Macro.toNamedParamTyped
+    import Macro.anyToTyped
     // break(new NamedParam.Typed("a", a))
     break(b)
   }
