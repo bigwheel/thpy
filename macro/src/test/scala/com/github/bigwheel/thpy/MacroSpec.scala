@@ -5,7 +5,7 @@ import org.scalatest.FunSpec
 import org.scalatest.Matchers
 import scala.tools.nsc.interpreter.NamedParam
 
-class MacroTest extends FunSpec with Matchers {
+class MacroSpec extends FunSpec with Matchers {
 
   // Following code has type erasue problem then this Equality is not completed.
   private[this] implicit val _ = new Equality[NamedParam.Typed[Int]] {
