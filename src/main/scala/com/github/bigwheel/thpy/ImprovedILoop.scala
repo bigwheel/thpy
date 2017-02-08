@@ -16,15 +16,13 @@ import scala.tools.nsc.interpreter._
   * based on https://github.com/scala/scala/blob/a346b77/src/repl/scala/tools/nsc/interpreter/IMain.scala#L621
   * based on https://github.com/scala/scala/blob/a346b77/src/repl/scala/tools/nsc/interpreter/IMain.scala#L660-L661
   */
-class ImprovedILoop(in0: Option[BufferedReader], out: JPrintWriter)(namedParams: NamedParam*)
-  extends ILoop(in0, out) {
-  def this(in0: BufferedReader, out: JPrintWriter)(namedParams: NamedParam*) =
-    this(Some(in0), out)(namedParams: _*)
-  def this(namedParams: NamedParam*) =
-    this(None, new JPrintWriter(Console.out, true))(namedParams: _*)
+class ImprovedILoop
+  (in0: Option[BufferedReader] = None, out: JPrintWriter = new JPrintWriter(Console.out, true))
+  (namedParams: NamedParam*) extends ILoop(in0, out) {
 
   override def createInterpreter(): Unit = {
     super.createInterpreter()
     namedParams.foreach(intp.quietBind)
   }
+
 }
