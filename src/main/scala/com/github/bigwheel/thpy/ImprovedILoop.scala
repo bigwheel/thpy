@@ -2,6 +2,7 @@ package com.github.bigwheel.thpy
 
 import java.io.BufferedReader
 import java.io.FileReader
+import scala.io.Source
 import scala.tools.nsc.interpreter._
 
 /**
@@ -18,8 +19,13 @@ import scala.tools.nsc.interpreter._
   * based on https://github.com/scala/scala/blob/a346b77/src/repl/scala/tools/nsc/interpreter/IMain.scala#L660-L661
   * @param namedParams parameters for bind
   */
-class ImprovedILoop(namedParams: NamedParam*) extends
-  ILoop(new BufferedReader(new FileReader("./input-for-test.txt")), new JPrintWriter(Console.out, true)) {
+class ImprovedILoop(namedParams: NamedParam*)
+  (in0: Option[BufferedReader], out: JPrintWriter) extends ILoop(in0, out) {
+  /*def this(namedParams: NamedParam*)(in0: BufferedReader, out: JPrintWriter) =
+    this(namedParams)(Some(in0), out)*/
+  /*def this(namedParams: NamedParam*)() =
+    this(namedParams)(None, new JPrintWriter(Console.out, true))*/
+
   override def createInterpreter(): Unit = {
     super.createInterpreter()
     namedParams.foreach(intp.quietBind)
