@@ -12,7 +12,7 @@ class ThpySpec extends FunSpec with Matchers {
 
   private[this] def toBufferedReader(s: String) = new BufferedReader(new StringReader(s))
 
-  it ("has \"Welcome to Thpy\" message") {
+  it ("""has "Welcome to Thpy" message""") {
     val input = ":quit"
 
     val sw = new StringWriter()
