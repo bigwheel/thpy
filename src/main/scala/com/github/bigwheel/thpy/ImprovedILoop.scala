@@ -25,4 +25,14 @@ class ImprovedILoop
     namedParams.foreach(intp.quietBind)
   }
 
+  override def printWelcome(): Unit = {
+    val shellWellcomeString = """Welcome to Thpy %1$#s (%3$s, Java %2$s).
+      |Type in expressions for evaluation. Or try :help.""".stripMargin
+
+    echo(replProps.enversion(shellWellcomeString))
+    replinfo("[info] started at " + new java.util.Date)
+  }
+
+  // copy https://github.com/scala/legacy-svn-scala/blob/ae19692/src/compiler/scala/tools/nsc/interpreter/ReplConfig.scala#L32 bacause of private[nsc]
+  private def replinfo(msg: => String) = if (isReplInfo) echo(msg)
 }
