@@ -49,6 +49,6 @@ class ImprovedILoop
   private[this] def showBindCommand(): Result = showBind
 
   override def commands: List[LoopCommand] =
-    LoopCommand.nullary("showbind", "show binded names", showBindCommand) :: super.commands
+    LoopCommand.nullary("showbind", "show binded names", () => showBindCommand) :: super.commands
 
 }
