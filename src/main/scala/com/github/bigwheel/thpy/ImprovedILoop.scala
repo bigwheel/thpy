@@ -31,8 +31,8 @@ class ImprovedILoop
     // based on https://github.com/scala/scala/blob/05016d90/src/compiler/scala/tools/nsc/Properties.scala#L21-L22
     // link to source code gimmick https://intellij-support.jetbrains.com/hc/en-us/community/posts/206330369
     val shellWellcomeString =
-      s"""Welcome to Thpy
-      |\tat ${enclosing.value}(${file.value}:${line.value.toString})
+      s"""Welcome to Thpy at ${enclosing.value}(${file.value}:${line.value.toString})
+      |binded names: ${showBind()}
       |Type in expressions for evaluation. Or try :help.""".stripMargin
 
     echo(shellWellcomeString)
@@ -42,11 +42,10 @@ class ImprovedILoop
   // copy https://github.com/scala/legacy-svn-scala/blob/ae19692/src/compiler/scala/tools/nsc/interpreter/ReplConfig.scala#L32 bacause of private[nsc]
   private[this] def replinfo(msg: => String) = if (isReplInfo) echo(msg)
 
-  private[this] def ShowBindCommand(): Result = {
-    namedParams.map(_.name).mkString(" ")
-  }
+  private[this] def showBind(): String = namedParams.map(_.name).mkString(" ")
+  private[this] def showBindCommand(): Result = showBind
 
   override def commands: List[LoopCommand] =
-    LoopCommand.nullary("showbind", "show binded names", ShowBindCommand) :: super.commands
+    LoopCommand.nullary("showbind", "show binded names", showBindCommand) :: super.commands
 
 }
