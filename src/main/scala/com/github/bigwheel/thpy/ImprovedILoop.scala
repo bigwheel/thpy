@@ -27,6 +27,9 @@ class ImprovedILoop
     namedParams.foreach(intp.quietBind)
   }
 
+  // based on https://github.com/scala/scala/blob/05016d90/src/compiler/scala/tools/nsc/Properties.scala#L19
+  override def prompt = replProps.encolor(replProps.enversion("%nthpy> "))
+
   override def printWelcome(): Unit = {
     // based on https://github.com/scala/scala/blob/05016d90/src/compiler/scala/tools/nsc/Properties.scala#L21-L22
     // link to source code gimmick https://intellij-support.jetbrains.com/hc/en-us/community/posts/206330369
