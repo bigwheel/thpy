@@ -18,7 +18,9 @@ import scala.tools.nsc.interpreter._
   */
 class ImprovedILoop
   (in0: Option[BufferedReader] = None, out: JPrintWriter = new JPrintWriter(Console.out, true))
-  (namedParams: NamedParam*) extends ILoop(in0, out) {
+  (namedParams: NamedParam*)
+  (implicit file: sourcecode.File, line: sourcecode.Line, enclosing: sourcecode.Enclosing)
+  extends ILoop(in0, out) {
 
   override def createInterpreter(): Unit = {
     super.createInterpreter()
@@ -26,13 +28,25 @@ class ImprovedILoop
   }
 
   override def printWelcome(): Unit = {
-    val shellWellcomeString = """Welcome to Thpy %1$#s (%3$s, Java %2$s).
+    // based on https://github.com/scala/scala/blob/05016d90/src/compiler/scala/tools/nsc/Properties.scala#L21-L22
+    // link to source code gimmick https://intellij-support.jetbrains.com/hc/en-us/community/posts/206330369
+    val shellWellcomeString =
+      s"""Welcome to Thpy
+      |\tat ${enclosing.value}(${file.value}:${line.value.toString})
       |Type in expressions for evaluation. Or try :help.""".stripMargin
 
-    echo(replProps.enversion(shellWellcomeString))
+    echo(shellWellcomeString)
     replinfo("[info] started at " + new java.util.Date)
   }
 
   // copy https://github.com/scala/legacy-svn-scala/blob/ae19692/src/compiler/scala/tools/nsc/interpreter/ReplConfig.scala#L32 bacause of private[nsc]
-  private def replinfo(msg: => String) = if (isReplInfo) echo(msg)
+  private[this] def replinfo(msg: => String) = if (isReplInfo) echo(msg)
+
+  private[this] def ShowBindCommand(): Result = {
+    namedParams.map(_.name).mkString(" ")
+  }
+
+  override def commands: List[LoopCommand] =
+    LoopCommand.nullary("showbind", "show binded names", ShowBindCommand) :: super.commands
+
 }
