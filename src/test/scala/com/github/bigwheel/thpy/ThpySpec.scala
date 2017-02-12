@@ -30,4 +30,16 @@ class ThpySpec extends FunSpec with Matchers {
     break(toBufferedReader(input), b)
   }
 
+  it ("can change mutable object") {
+    val map = scala.collection.mutable.Map(1 -> "one")
+    map.size should equal(1)
+    val input = """|map
+                   |map.put(2, "two")
+                   |:quit""".stripMargin
+
+    break(toBufferedReader(input), map)
+    map.size should equal(2)
+    map(2) should equal("two")
+  }
+
 }
