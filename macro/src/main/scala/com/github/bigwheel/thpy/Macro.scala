@@ -1,8 +1,6 @@
 package com.github.bigwheel.thpy
 
-import scala.reflect.ClassTag
 import scala.reflect.macros.whitebox.Context
-import scala.reflect.runtime
 import scala.tools.nsc.interpreter.NamedParam
 
 object Macro {

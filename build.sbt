@@ -15,4 +15,6 @@ lazy val macroSub = (project in file("macro")).settings(
   libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
 
-lazy val main = (project in file(".")).dependsOn(macroSub)
+lazy val main = (project in file(".")).dependsOn(macroSub).settings(
+  libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.3"
+)
