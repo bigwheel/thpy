@@ -8,10 +8,10 @@ package object thpy {
 
   private def breakImpl(iilCreater: (NamedParam*) => ImprovedILoop)(namedParams: NamedParam*) = {
     val repl = iilCreater(namedParams: _*)
-    val s = new Settings()
-    s.usejavacp.value = true
+    //val sbtClasspath = System.getProperty("sbt-classpath")
+    //s.classpath.value = s".:$sbtClasspath"
 
-    repl.process(s)
+    repl.process
   }
 
   def break(in: BufferedReader, out: JPrintWriter, namedParams: NamedParam*)

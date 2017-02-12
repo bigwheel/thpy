@@ -1,6 +1,7 @@
 package com.github.bigwheel.thpy
 
 import java.io.BufferedReader
+import scala.tools.nsc.Settings
 import scala.tools.nsc.interpreter._
 
 /**
@@ -21,6 +22,19 @@ class ImprovedILoop
   (namedParams: NamedParam*)
   (implicit file: sourcecode.File, line: sourcecode.Line, enclosing: sourcecode.Enclosing)
   extends ILoop(in0, out) {
+  settings = {
+    val s = new Settings()
+
+    def classLoaderURLs(cl: ClassLoader): Seq[java.net.URL] = cl match {
+      case null => Nil
+      case u: java.net.URLClassLoader => u.getURLs.toSeq ++ classLoaderURLs(cl.getParent)
+      case _ => classLoaderURLs(cl.getParent)
+    }
+
+    // sorted is unnecessary, but it makes comparable and coherency of order
+    s.classpath.value = classLoaderURLs(getClass.getClassLoader).map(_.getPath).distinct.sorted.mkString(":")
+    s
+  }
 
   override def createInterpreter(): Unit = {
     super.createInterpreter()
@@ -51,4 +65,5 @@ class ImprovedILoop
   override def commands: List[LoopCommand] =
     LoopCommand.nullary("showbind", "show binded names", () => showBindCommand) :: super.commands
 
+  def process(): Boolean = process(this.settings)
 }
