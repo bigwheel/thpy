@@ -1,6 +1,10 @@
 # thpy - ruby's pry like runtime developer console
 
-Tested only in 2.12.
+## What's this
+
+Debugging tool like Ruby's pry.
+Insert one themod call `break` cause interuption of program and setup scala interactive tool (Repl) with binded values.
+User can show the value, call methods and change internal value of it.
 
 ## How to install
 
@@ -43,6 +47,11 @@ a
 
 thpy> :quit
 ```
+
+## Support scala version
+
+Tested only in 2.12.
+And this must not work well in other version because repl code has no compatibility.
 
 ## Known problem
 
