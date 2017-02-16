@@ -1,6 +1,6 @@
 name := "thpy"
 organization := "com.github.bigwheel"
-version in Global := "1.0.0"
+version in Global := "0.1.0"
 scalaVersion in Global := "2.12.1"
 scalacOptions in Global ++= Seq("-unchecked", "-deprecation", "-feature")
 
