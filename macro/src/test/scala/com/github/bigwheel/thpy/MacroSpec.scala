@@ -6,16 +6,23 @@ import scala.tools.nsc.interpreter.NamedParam
 
 class MacroSpec extends FunSpec with Matchers {
 
-  it ("can convert NamedParam.Typed implicitly") {
+  it ("can convert NamedParam.Typed implicitly without bind name") {
     import Macro.anyToTyped
     val a = 10
     val subject: NamedParam.Typed[Int] = a
 
-    val expect = new NamedParam.Typed[Int]("a", 10)
+    subject.name should be("a")
+    subject.value should be(10)
+    subject.tpe should be("scala.Int")
+  }
 
-    subject.name should be(expect.name)
-    subject.value should be(expect.value)
-    subject.tpe should be(expect.tpe)
+  it ("can convert NamedParam.Typed implicitly with bind name") {
+    import NamedParam.tuple
+    val subject: NamedParam = ("b", 10)
+
+    subject.name should be("b")
+    subject.value should be(10)
+    subject.tpe should be("scala.Int")
   }
 
 }
