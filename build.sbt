@@ -12,11 +12,18 @@ libraryDependencies in Global ++= Seq(
   "org.scalactic" %% "scalactic" % "3.0.1"
 )
 
+// refer following url for macro project structure
+// http://www.scala-sbt.org/0.13/docs/Macro-Projects.html#Distribution
+
 lazy val macroSub = (project in file("macro")).settings(
   scalacOptions ++= Seq("-language:experimental.macros", "-language:implicitConversions"),
-  libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
+  libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+  publish := {},
+  publishLocal := {}
 )
 
-lazy val main = (project in file(".")).dependsOn(macroSub).settings(
-  libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.3"
+lazy val core = (project in file(".")).dependsOn(macroSub).settings(
+  libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.3",
+  mappings in (Compile, packageBin) ++= mappings.in(macroSub, Compile, packageBin).value,
+  mappings in (Compile, packageSrc) ++= mappings.in(macroSub, Compile, packageSrc).value
 )
