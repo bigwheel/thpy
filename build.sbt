@@ -22,8 +22,10 @@ lazy val macroSub = (project in file("macro")).settings(
   publishLocal := {}
 )
 
-lazy val core = (project in file(".")).dependsOn(macroSub).settings(
-  libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.3",
-  mappings in (Compile, packageBin) ++= mappings.in(macroSub, Compile, packageBin).value,
-  mappings in (Compile, packageSrc) ++= mappings.in(macroSub, Compile, packageSrc).value
-)
+lazy val core = (project in file(".")).
+  dependsOn(macroSub % "compile-internal, test-internal").
+  settings(
+    libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.3",
+    mappings in (Compile, packageBin) ++= mappings.in(macroSub, Compile, packageBin).value,
+    mappings in (Compile, packageSrc) ++= mappings.in(macroSub, Compile, packageSrc).value
+  )
