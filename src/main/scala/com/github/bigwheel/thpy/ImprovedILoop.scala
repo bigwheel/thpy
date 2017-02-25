@@ -1,5 +1,6 @@
 package com.github.bigwheel.thpy
 
+import com.github.bigwheel.thpy.Macro.CodeContextWithIndex
 import java.io.BufferedReader
 import scala.tools.nsc.Settings
 import scala.tools.nsc.interpreter._
@@ -19,7 +20,7 @@ import scala.tools.nsc.interpreter._
   */
 class ImprovedILoop
   (in0: Option[BufferedReader] = None, out: JPrintWriter = new JPrintWriter(Console.out, true))
-  (namedParams: NamedParam*)
+  (codeContext: CodeContextWithIndex, namedParams: NamedParam*)
   (implicit file: sourcecode.File, line: sourcecode.Line, enclosing: sourcecode.Enclosing)
   extends ILoop(in0, out) {
   settings = {
@@ -44,13 +45,29 @@ class ImprovedILoop
   // based on https://github.com/scala/scala/blob/05016d90/src/compiler/scala/tools/nsc/Properties.scala#L19
   override def prompt = replProps.encolor(replProps.enversion("%nthpy> "))
 
+  private[this] def contextMessage: Seq[String] = {
+    val context = codeContext.value
+    val maxIndexWidth = context.last._1.toString.length
+    val cursor = "=>"
+    val cursorSize = cursor.length
+    context.map { line =>
+      val isFocusLine = this.line.value == (line._1 + 1)
+      val cursorString = if (isFocusLine) cursor else ""
+      s"%${cursorSize}s %${maxIndexWidth}d: %s".format(cursorString, line._1, line._2)
+    }
+  }
+
   override def printWelcome(): Unit = {
     // based on https://github.com/scala/scala/blob/05016d90/src/compiler/scala/tools/nsc/Properties.scala#L21-L22
     // link to source code gimmick https://intellij-support.jetbrains.com/hc/en-us/community/posts/206330369
-    val shellWellcomeString =
+    val shellWellcomeString = {
       s"""Welcome to Thpy at ${enclosing.value}(${file.value}:${line.value.toString})
-      |binded names: ${showBind()}
-      |Type in expressions for evaluation. Or try :help.""".stripMargin
+         |
+         |${contextMessage.mkString("\n")}
+         |
+         |binded names: ${showBind()}
+         |Type in expressions for evaluation. Or try :help.""".stripMargin
+    }
 
     echo(shellWellcomeString)
     replinfo("[info] started at " + new java.util.Date)
