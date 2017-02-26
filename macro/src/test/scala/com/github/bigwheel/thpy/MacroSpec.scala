@@ -26,7 +26,9 @@ class MacroSpec extends FunSpec with Matchers {
     subject.tpe should be("scala.Int")
   }
 
+  val aaaaa = "test"
   it ("macro test") {
-    implicitly[MacroExperiment].value should equal("test")
+    val bbbbb = "test"
+    println(implicitly[MacroExperiment].value)
   }
 }

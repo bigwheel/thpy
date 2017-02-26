@@ -79,7 +79,15 @@ object Macro {
 
     def impl(c: Context): c.Expr[MacroExperiment] = {
       import c.universe._
-      val s = LocalDateTime.now.toString
+      //val a = c.enclosingClass.symbol.typeSignature.members
+      //val a = c.internal.enclosingOwner.typeSignature.members
+      //val a = c.internal.enclosingOwner.owner.info.members
+      //val a = c.macroApplication.symbol.info.members
+      //val a = c.macroApplication.symbol.info.members
+      //val a = c.macroApplication.symbol.owner.info.members
+      val a = c.asInstanceOf[reflect.macros.runtime.Context].callsiteTyper.context.enclosingContextChain.map(_.tree.asInstanceOf[c.Tree])
+      val b = a //a.map(_.name).mkString(", ")
+      val s = s"${LocalDateTime.now.toString}: ${c.internal.enclosingOwner.toString}\n$b"
       c.Expr[MacroExperiment](q"""${c.prefix}($s)""")
     }
   }
