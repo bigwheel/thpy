@@ -1,5 +1,6 @@
 package com.github.bigwheel.thpy
 
+import java.time.LocalDateTime
 import scala.reflect.macros.blackbox.Context
 import scala.tools.nsc.interpreter.NamedParam
 
@@ -71,5 +72,17 @@ object Macro {
       c.Expr[CodeContext](q"""scala.collection.immutable.Seq(..$context)""")
     }
   }
+
+  case class MacroExperiment(value: String)
+  object MacroExperiment {
+    implicit def generate: MacroExperiment = macro impl
+
+    def impl(c: Context): c.Expr[MacroExperiment] = {
+      import c.universe._
+      val s = LocalDateTime.now.toString
+      c.Expr[MacroExperiment](q"""${c.prefix}($s)""")
+    }
+  }
+
 
 }

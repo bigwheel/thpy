@@ -1,5 +1,6 @@
 package com.github.bigwheel.thpy
 
+import com.github.bigwheel.thpy.Macro.MacroExperiment
 import org.scalatest.FunSpec
 import org.scalatest.Matchers
 import scala.tools.nsc.interpreter.NamedParam
@@ -25,4 +26,7 @@ class MacroSpec extends FunSpec with Matchers {
     subject.tpe should be("scala.Int")
   }
 
+  it ("macro test") {
+    implicitly[MacroExperiment].value should equal("test")
+  }
 }
