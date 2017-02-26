@@ -29,3 +29,29 @@ lazy val core = (project in file(".")).
     mappings in (Compile, packageBin) ++= mappings.in(macroSub, Compile, packageBin).value,
     mappings in (Compile, packageSrc) ++= mappings.in(macroSub, Compile, packageSrc).value
   )
+
+// about maven publish
+publishMavenStyle := true
+publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+}
+publishArtifact in Test := false
+licenses := Seq("MIT License" -> url("https://github.com/bigwheel/thpy/blob/master/LICENSE"))
+homepage := Some(url("https://github.com/bigwheel/thpy"))
+pomExtra := (
+  <scm>
+    <url>git@github.com:bigwheel/thpy.git</url>
+    <connection>scm:git:git@github.com:bigwheel/thpy.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>bigwheel</id>
+      <name>k.bigwheel</name>
+      <url>https://github.com/bigwheel</url>
+    </developer>
+  </developers>
+)
