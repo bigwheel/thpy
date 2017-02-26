@@ -2,7 +2,7 @@ name := "thpy"
 organization := "com.github.bigwheel"
 // append "-SNAPSHOT" to avoid publishLocal warning
 // http://stackoverflow.com/a/26089552
-version in Global := "0.1.0"
+version in Global := "0.1.1-SNAPSHOT"
 scalaVersion in Global := "2.12.1"
 scalacOptions in Global ++= Seq("-unchecked", "-deprecation", "-feature")
 
