@@ -2,16 +2,15 @@
 
 ## What's this
 
-Debugging tool like Ruby's pry.
+Debugging tool like [Ruby's pry](https://github.com/pry/pry).
 Insert one themod call `break` cause interuption of program and setup scala interactive tool (Repl) with binded values.
-User can show the value, call methods and change internal value of it.
+User can show the value, call methods and change internal state of it.
 
 ## How to install
 
 build.sbt
 ```scala
-lazy val thpy = RootProject(uri("https://github.com/bigwheel/thpy.git"))
-lazy val root = Project("root", file(".")) dependsOn thpy
+libraryDependencies += "com.github.bigwheel" %% "thpy" % "0.1.0"
 ```
 ## How to use
 
