@@ -22,7 +22,7 @@ import com.github.bigwheel.thpy.Macro.anyToTyped
 // for human interactive test purpose Main.
 object Main {
   def main(args: Array[String]): Unit = {
-    val a = 1
+    val a = 10
     break(a)
   }
 }
@@ -31,18 +31,27 @@ then `sbt run` and interact with thpy console
 ```
 $ sbt run
 ....
-Welcome to Thpy at com.github.bigwheel.thpy.Main.main(/home/kbigwheel/code/thpy/src/main/scala/com/github/bigwheel/thpy/Main.scala:10)
+Welcome to Thpy at <empty>.Main.main(/home/kbigwheel/code/thpy-sample/src/main/scala/Main.scala:8)
+
+    4:
+    5:   def main(args: Array[String]): Unit = {
+    6:     val a = 10
+=>  7:     break(a)
+    8:   }
+    9:
+   10: }
+
 binded names: a
 Type in expressions for evaluation. Or try :help.
 
 thpy> a
-res0: Int = 1
+res0: Int = 10
 
 thpy> 1 + 1
 res1: Int = 2
 
-thpy> :showbind
-a
+thpy> a + 2
+res2: Int = 12
 
 thpy> :quit
 ```
