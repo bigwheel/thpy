@@ -3,7 +3,7 @@
 ## What's this
 
 Debugging tool like [Ruby's pry](https://github.com/pry/pry).
-Insert one themod call `break` cause interuption of program and setup scala interactive tool (Repl) with binded values.
+Insert one themod call `break` cause interuption of program and setup scala interactive tool (Repl) with bound values.
 User can show the value, call methods and change internal state of it.
 
 ## How to install
@@ -41,7 +41,7 @@ Welcome to Thpy at <empty>.Main.main(/home/kbigwheel/code/thpy-sample/src/main/s
     9:
    10: }
 
-binded names: a
+bound names: a
 Type in expressions for evaluation. Or try :help.
 
 thpy> a
