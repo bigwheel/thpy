@@ -65,7 +65,7 @@ class ImprovedILoop
          |
          |${contextMessage.mkString("\n")}
          |
-         |binded names: ${showBind()}
+         |bound names: ${showBind()}
          |Type in expressions for evaluation. Or try :help.""".stripMargin
     }
 
@@ -80,7 +80,7 @@ class ImprovedILoop
   private[this] def showBindCommand(): Result = showBind
 
   override def commands: List[LoopCommand] =
-    LoopCommand.nullary("showbind", "show binded names", () => showBindCommand) :: super.commands
+    LoopCommand.nullary("showbind", "show bound names", () => showBindCommand) :: super.commands
 
   def process(): Boolean = process(this.settings)
 }
